@@ -1,0 +1,54 @@
+name: build-and-deploy
+on:
+  push:
+    branches:
+      - master
+
+env:
+  EMSCRIPTEN_VERSION: 2.0.8
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: emsdk
+      run: |
+        git clone https://github.com/emscripten-core/emsdk.git
+        cd emsdk
+        ./emsdk install $EMSCRIPTEN_VERSION
+        ./emsdk activate $EMSCRIPTEN_VERSION
+
+    - name: ncnn
+      run: |
+        wget -q https://github.com/Tencent/ncnn/releases/download/20220216/ncnn-20220216-webassembly.zip
+        unzip -q ncnn-20220216-webassembly.zip
+
+    - name: build
+      run: |
+        source emsdk/emsdk_env.sh
+        mkdir build && cd build
+        cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DWASM_FEATURE=basic ..
+        make -j4
+        cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DWASM_FEATURE=simd ..
+        make -j4
+        cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DWASM_FEATURE=threads ..
+        make -j4
+        cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DWASM_FEATURE=simd-threads ..
+        make -j4
+
+    - name: collect-deploy-files
+      run: |
+        mkdir deploy && cd deploy
+        cp ../build/*.data .
+        cp ../build/*.js .
+        cp ../build/*.wasm .
+        cp ../*.html .
+        cp ../*.js .
+
+    - name: deploy
+      uses: JamesIves/github-pages-deploy-action@4.1.1
+      with:
+        branch: gh-pages
+        folder: deploy
+        single-commit: true
