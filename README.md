@@ -60,6 +60,8 @@ deploy/
 ```
 python3 -m http.server --directory deploy
 ```
+https://gist.github.com/nihui/c97a27b302bc56d554874af0f158d6df
+
 6. Access local server(chrome as a example)
 ```
 # launch chrome browser, enter following command to address bar and press ENTER: 
