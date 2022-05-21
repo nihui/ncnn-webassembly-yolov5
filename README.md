@@ -32,7 +32,7 @@ wget https://github.com/Tencent/ncnn/releases/download/20220216/ncnn-20220216-we
 unzip ncnn-20220216-webassembly.zip
 ```
 
-3. Build four WASM feature variants
+4. Build four WASM feature variants
 ```shell
 # The build folder is part of the bundle extracted in the previous step
 cd build 
@@ -46,9 +46,9 @@ cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/E
 make -j4
 ```
 
-4. Deploy the *.data *.js *.wasm and *.html files to your web server
+5. Deploy the *.data *.js *.wasm and *.html files to your web server
 
-If you want to run this locally, create a deploy folder in the root project folder and copy the following assets into it:
+If you want to run this locally, create a folder named `deploy` in the root project directory and copy the following assets into it:
 
 ```
 # deploy files
@@ -70,12 +70,12 @@ deploy/
 ├── yolov5-threads.worker.js
 └── wasmFeatureDetect.js
 ```
-5. Deploy local server(python3 as a example)
+6. Deploy local server(python3 as a example)
 ```
 python3 -m http.server --directory deploy
 ```
 
-6. Access local server(chrome as a example)
+7. Access local server(chrome as a example)
 ```
 # launch chrome browser, enter following command to address bar and press ENTER: 
 chrome://flags/#unsafely-treat-insecure-origin-as-secure
