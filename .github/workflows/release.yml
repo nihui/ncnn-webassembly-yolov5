@@ -5,7 +5,7 @@ on:
       - master
 
 env:
-  EMSCRIPTEN_VERSION: 2.0.8
+  EMSCRIPTEN_VERSION: 3.1.28
 
 jobs:
   build-and-deploy:
@@ -21,8 +21,8 @@ jobs:
 
     - name: ncnn
       run: |
-        wget -q https://github.com/Tencent/ncnn/releases/download/20220216/ncnn-20220216-webassembly.zip
-        unzip -q ncnn-20220216-webassembly.zip
+        wget -q https://github.com/Tencent/ncnn/releases/download/20230223/ncnn-20230223-webassembly.zip
+        unzip -q ncnn-20230223-webassembly.zip
 
     - name: build
       run: |

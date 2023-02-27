@@ -19,8 +19,8 @@ cd ncnn-webassembly-yolov5
 ```shell
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
-./emsdk install 2.0.8
-./emsdk activate 2.0.8
+./emsdk install 3.1.28
+./emsdk activate 3.1.28
 
 source emsdk_env.sh
 ```
@@ -28,8 +28,8 @@ source emsdk_env.sh
 3. Download and extract ncnn webassembly package
 ```shell
 cd .. #Return to the root folder
-wget https://github.com/Tencent/ncnn/releases/download/20220216/ncnn-20220216-webassembly.zip
-unzip ncnn-20220216-webassembly.zip
+wget https://github.com/Tencent/ncnn/releases/download/20230223/ncnn-20230223-webassembly.zip
+unzip ncnn-20230223-webassembly.zip
 ```
 
 4. Build four WASM feature variants
