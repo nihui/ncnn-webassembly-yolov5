@@ -5,26 +5,37 @@ open https://nihui.github.io/ncnn-webassembly-yolov5 and enjoy
 
 # build and deploy
 
-1. Install emscripten
+Prior to starting, make sure you have `cmake` installed.
+
+1. Clone the project - all other steps are to be performed inside the project directory.
+
+```
+git clone https://github.com/nihui/ncnn-webassembly-yolov5.git
+cd ncnn-webassembly-yolov5
+
+```
+
+2. Install emscripten
 ```shell
 git clone https://github.com/emscripten-core/emsdk.git
 cd emsdk
 ./emsdk install 2.0.8
 ./emsdk activate 2.0.8
 
-source emsdk/emsdk_env.sh
+source emsdk_env.sh
 ```
 
-2. Download and extract ncnn webassembly package
+3. Download and extract ncnn webassembly package
 ```shell
+cd .. #Return to the root folder
 wget https://github.com/Tencent/ncnn/releases/download/20220216/ncnn-20220216-webassembly.zip
 unzip ncnn-20220216-webassembly.zip
 ```
 
-3. Build four WASM feature variants
+4. Build four WASM feature variants
 ```shell
-mkdir build
-cd build
+# The build folder is part of the bundle extracted in the previous step
+cd build 
 cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DWASM_FEATURE=basic ..
 make -j4
 cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/Emscripten.cmake -DWASM_FEATURE=simd ..
@@ -35,7 +46,10 @@ cmake -DCMAKE_TOOLCHAIN_FILE=$EMSDK/upstream/emscripten/cmake/Modules/Platform/E
 make -j4
 ```
 
-4. Deploy the *.data *.js *.wasm and *.html files to your web server
+5. Deploy the *.data *.js *.wasm and *.html files to your web server
+
+If you want to run this locally, create a folder named `deploy` in the root project directory and copy the following assets into it:
+
 ```
 # deploy files
 deploy/
@@ -56,13 +70,12 @@ deploy/
 ├── yolov5-threads.worker.js
 └── wasmFeatureDetect.js
 ```
-5. Deploy local server(python3 as a example)
+6. Deploy local server(python3 as a example)
 ```
 python3 -m http.server --directory deploy
 ```
-https://gist.github.com/nihui/c97a27b302bc56d554874af0f158d6df
 
-6. Access local server(chrome as a example)
+7. Access local server(chrome as a example)
 ```
 # launch chrome browser, enter following command to address bar and press ENTER: 
 chrome://flags/#unsafely-treat-insecure-origin-as-secure
